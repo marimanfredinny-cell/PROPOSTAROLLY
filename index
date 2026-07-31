@@ -389,51 +389,6 @@
     color: var(--accent); font-size: 11px; top: 6px;
   }
 
-  /* Dashboard mock */
-  .dashboard-mock {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px;
-    margin-bottom: 60px;
-    overflow: hidden;
-  }
-  .dash-header {
-    font-size: 12px; color: var(--muted);
-    margin-bottom: 20px; letter-spacing: 0.06em;
-  }
-  .dash-metrics {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 12px; margin-bottom: 20px;
-  }
-  .dash-metric {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-  }
-  .dash-metric-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
-  .dash-metric-value { font-size: 20px; font-weight: 700; }
-  .dash-metric-value.green { color: var(--green); }
-  .dash-metric-value.accent { color: var(--accent); }
-  .dash-event {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px 16px;
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 8px; font-size: 13px;
-  }
-  .dash-event-info { display: flex; align-items: center; gap: 10px; }
-  .dash-event-icon {
-    width: 28px; height: 28px; border-radius: 6px;
-    display: flex; align-items: center; justify-content: center; font-size: 14px;
-  }
-  .dash-event-icon.google { background: rgba(66,133,244,0.15); }
-  .dash-event-icon.meta { background: rgba(24,119,242,0.15); }
-  .dash-event-icon.email { background: rgba(232,160,32,0.15); }
-  .dash-event-time { font-size: 11px; color: var(--muted); }
-
   /* Benefits */
   .benefits-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -907,7 +862,7 @@
             <li>Meta Ads — segmentação por cargo: directores de marketing, responsáveis de compras, donos de agência</li>
             <li>Retargeting activo nos dois canais para visitantes do roly.pt</li>
             <li>Copy de todos os anúncios incluída</li>
-            <li>Relatório mensal com ROAS e custo por lead por canal</li>
+            <li>Relatório mensal com o desempenho de cada canal</li>
           </ul>
         </div>
       </div>
@@ -948,60 +903,6 @@
       </div>
     </div>
 
-    <!-- Dashboard mock -->
-    <div class="dashboard-mock reveal">
-      <div class="dash-header">TRÁFEGO PAGO · ROLY PORTUGAL · SIMULAÇÃO EM OPERAÇÃO</div>
-      <div class="dash-metrics">
-        <div class="dash-metric">
-          <div class="dash-metric-label">ROAS Semanal</div>
-          <div class="dash-metric-value accent">4.8×</div>
-        </div>
-        <div class="dash-metric">
-          <div class="dash-metric-label">Leads Google (mês)</div>
-          <div class="dash-metric-value green">+87</div>
-        </div>
-        <div class="dash-metric">
-          <div class="dash-metric-label">Clientes Reactivados</div>
-          <div class="dash-metric-value accent">23</div>
-        </div>
-        <div class="dash-metric">
-          <div class="dash-metric-label">Custo por Lead</div>
-          <div class="dash-metric-value">€6,90</div>
-        </div>
-      </div>
-
-      <div class="dash-event">
-        <div class="dash-event-info">
-          <div class="dash-event-icon google">🎯</div>
-          <div>
-            <div>Nova conversão — Roupa Corporativa · 50 unidades</div>
-            <div style="font-size:11px;color:var(--muted);">Via pesquisa "camisetas personalizadas portugal" · CPC €0,52</div>
-          </div>
-        </div>
-        <div class="dash-event-time">agora</div>
-      </div>
-      <div class="dash-event">
-        <div class="dash-event-info">
-          <div class="dash-event-icon meta">📱</div>
-          <div>
-            <div>Meta Ads — Director de Marketing · Lisboa · pedido de registo</div>
-            <div style="font-size:11px;color:var(--muted);">Segmentação por cargo · 3.º contacto com a marca</div>
-          </div>
-        </div>
-        <div class="dash-event-time">12m</div>
-      </div>
-      <div class="dash-event">
-        <div class="dash-event-info">
-          <div class="dash-event-icon email">📧</div>
-          <div>
-            <div>E-mail de reactivação — cliente com 94 dias sem encomenda</div>
-            <div style="font-size:11px;color:var(--muted);">Sequência automática · encomenda finalizada</div>
-          </div>
-        </div>
-        <div class="dash-event-time">1h</div>
-      </div>
-    </div>
-
     <!-- Benefits -->
     <p class="section-label reveal" style="margin-bottom:24px;">O que pode esperar</p>
     <div class="benefits-grid">
@@ -1023,7 +924,7 @@
       <div class="benefit-card reveal">
         <div class="benefit-icon">📊</div>
         <div class="benefit-title">Dados reais, decisões melhores</div>
-        <div class="benefit-desc">Relatório mensal com ROAS por campanha, custo por lead por canal, taxa de conversão por segmento de e-mail e desempenho do GMB. Sem suposições.</div>
+        <div class="benefit-desc">Relatório mensal com o desempenho de cada campanha e canal, taxa de conversão por segmento de e-mail e resultados do GMB. Sem suposições.</div>
       </div>
       <div class="benefit-card reveal">
         <div class="benefit-icon">📍</div>
@@ -1060,7 +961,7 @@
           <li>Retargeting activo nos dois canais</li>
           <li>Copy de todos os anúncios incluída</li>
           <li>Google Meu Negócio: configuração e gestão incluídas</li>
-          <li>Relatório mensal com ROAS e métricas por canal</li>
+          <li>Relatório mensal com métricas por canal</li>
           <li class="budget">Budget de anúncios: à parte (mínimo sugerido 600€/mês)</li>
         </ul>
       </div>
@@ -1177,7 +1078,7 @@
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // Stagger children in grids
-  document.querySelectorAll('.benefits-grid, .competitor-grid, .pricing-grid, .dash-metrics').forEach(grid => {
+  document.querySelectorAll('.benefits-grid, .competitor-grid, .pricing-grid').forEach(grid => {
     grid.querySelectorAll('.reveal').forEach((child, i) => {
       child.style.transitionDelay = (i * 80) + 'ms';
     });
