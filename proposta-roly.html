@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta Roly — Mariana Manfredinny</title>
+<style>
+  :root {
+    --bg: #080808;
+    --bg2: #0f0f0f;
+    --bg3: #141414;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0f0f0;
+    --muted: #888;
+    --accent: #e8a020;
+    --accent2: #c4861a;
+    --accent-dim: rgba(232,160,32,0.12);
+    --accent-glow: rgba(232,160,32,0.25);
+    --red: #e05050;
+    --green: #4ade80;
+    --green-dim: rgba(74,222,128,0.12);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--text); text-decoration: none; opacity: 0.9;
+  }
+  .nav-links {
+    display: flex; gap: 28px; list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px; color: var(--muted); text-decoration: none;
+    letter-spacing: 0.04em; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-live {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--muted);
+  }
+  .live-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; } 50% { opacity:0.3; }
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 120px 32px 80px;
+    text-align: center;
+    position: relative;
+  }
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(232,160,32,0.2);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px; color: var(--accent); letter-spacing: 0.06em;
+    margin-bottom: 40px;
+  }
+  #hero h1 {
+    font-size: clamp(28px, 4.5vw, 58px);
+    font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    margin: 0 auto 28px;
+  }
+  #hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 18px; color: var(--muted);
+    max-width: 520px; margin: 0 auto 48px;
+    line-height: 1.7;
+  }
+  .hero-link {
+    font-size: 13px; color: var(--muted);
+    text-decoration: none; letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border2);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+  .hero-link:hover { color: var(--text); }
+  .scroll-hint {
+    position: absolute; bottom: 40px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px; color: var(--muted); letter-spacing: 0.1em;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: -1;
+    background-image:
+      linear-gradient(rgba(232,160,32,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,160,32,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 32px; }
+  .container { max-width: 900px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px; letter-spacing: 0.14em; color: var(--accent);
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(26px, 3.5vw, 42px);
+    font-weight: 700; line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 16px; color: var(--muted);
+    max-width: 560px; line-height: 1.7;
+    margin-bottom: 60px;
+  }
+
+  /* ── DIAGNÓSTICO ── */
+  #diagnostico { background: var(--bg2); }
+  .problem-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .problem-card:hover { border-color: var(--border2); }
+  .problem-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(224,80,80,0.1);
+    border: 1px solid rgba(224,80,80,0.2);
+    border-radius: 100px;
+    padding: 4px 12px;
+    font-size: 11px; color: var(--red); letter-spacing: 0.06em;
+    margin-bottom: 24px;
+  }
+  .problem-title {
+    font-size: 20px; font-weight: 700;
+    margin-bottom: 24px; line-height: 1.3;
+  }
+  .problem-desc {
+    font-size: 15px; color: var(--muted); line-height: 1.8;
+    margin-top: 20px;
+  }
+
+  /* Google mock */
+  .google-mock {
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    font-size: 13px;
+  }
+  .google-search-bar {
+    background: #111; border: 1px solid #333;
+    border-radius: 100px; padding: 10px 18px;
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+  }
+  .google-result { padding: 10px 0; border-bottom: 1px solid #1f1f1f; }
+  .google-result:last-child { border-bottom: none; }
+  .google-result-url { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .google-result-title { color: #8ab4f8; font-size: 14px; margin-bottom: 2px; }
+  .google-result-desc { font-size: 12px; color: #bbb; }
+  .google-missing {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: rgba(224,80,80,0.06);
+    border: 1px solid rgba(224,80,80,0.2);
+    border-radius: var(--radius-sm);
+    font-size: 12px; color: var(--red);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ad-badge {
+    display: inline-block;
+    background: rgba(139,195,74,0.15); color: #8bc34a;
+    border: 1px solid rgba(139,195,74,0.3);
+    border-radius: 3px; padding: 1px 5px;
+    font-size: 10px; font-weight: 600; margin-right: 6px;
+  }
+
+  /* GMB mock */
+  .gmb-mock {
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+  }
+  .gmb-header {
+    display: flex; align-items: flex-start; gap: 14px;
+    margin-bottom: 16px;
+  }
+  .gmb-icon {
+    width: 44px; height: 44px; border-radius: var(--radius-sm);
+    background: var(--bg); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .gmb-name { font-size: 15px; font-weight: 600; }
+  .gmb-type { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .gmb-warning {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px;
+    background: rgba(224,80,80,0.06);
+    border: 1px solid rgba(224,80,80,0.15);
+    border-radius: 6px;
+    font-size: 12px; color: #e07070;
+    margin-bottom: 6px;
+  }
+
+  /* Email mock */
+  .email-mock {
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .email-header-bar {
+    padding: 12px 16px;
+    background: #141414;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--muted);
+  }
+  .email-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .email-body { padding: 20px; }
+  .email-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .email-row.dormant { background: rgba(224,80,80,0.06); }
+  .email-row.never { background: rgba(255,165,0,0.06); }
+  .email-row-label { color: var(--muted); font-size: 11px; }
+  .email-count { font-size: 18px; font-weight: 700; }
+  .email-count.red { color: var(--red); }
+  .email-count.orange { color: #f59e0b; }
+  .no-automation {
+    margin-top: 14px; padding: 12px 16px;
+    background: rgba(224,80,80,0.06);
+    border: 1px solid rgba(224,80,80,0.2);
+    border-radius: 6px;
+    font-size: 12px; color: var(--red);
+    text-align: center;
+  }
+
+  /* ── DADOS ── */
+  #dados { background: var(--bg); }
+  .data-table {
+    width: 100%; border-collapse: collapse;
+    margin-bottom: 40px;
+  }
+  .data-table th {
+    text-align: left; padding: 12px 16px;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 14px 16px; font-size: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table .keyword { font-weight: 500; }
+  .data-table .volume { color: var(--accent); font-weight: 600; }
+  .data-table .competitor { color: var(--muted); font-size: 13px; }
+  .data-table .roly-missing {
+    color: var(--red); font-size: 12px; font-weight: 600;
+  }
+
+  .revenue-block {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 40px;
+    margin-bottom: 40px;
+  }
+  .revenue-label { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  .revenue-value {
+    font-size: 52px; font-weight: 800;
+    color: var(--red); letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .revenue-sub { font-size: 14px; color: var(--muted); margin-top: 10px; }
+
+  .competitor-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .competitor-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+  }
+  .competitor-name { font-size: 13px; font-weight: 600; color: var(--red); margin-bottom: 4px; }
+  .competitor-keys { font-size: 12px; color: var(--muted); }
+  .roly-competitor {
+    background: var(--accent-dim);
+    border-color: rgba(232,160,32,0.2);
+  }
+  .roly-competitor .competitor-name { color: var(--accent); }
+
+  /* ── SOLUÇÃO ── */
+  #solucao { background: var(--bg2); }
+
+  .solution-question {
+    background: var(--bg3);
+    border: 1px solid rgba(232,160,32,0.15);
+    border-radius: var(--radius-sm);
+    padding: 14px 20px;
+    font-size: 14px; color: var(--accent);
+    margin-bottom: 36px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .solution-cards {
+    display: grid; gap: 20px;
+    margin-bottom: 60px;
+  }
+  .solution-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 40px;
+    display: grid; grid-template-columns: 48px 1fr;
+    gap: 24px; align-items: start;
+    transition: border-color 0.3s;
+  }
+  .solution-card:hover { border-color: var(--accent); }
+  .solution-num {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--accent-dim); border: 1px solid rgba(232,160,32,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800; color: var(--accent); flex-shrink: 0;
+  }
+  .solution-card-title {
+    font-size: 18px; font-weight: 700; margin-bottom: 12px;
+  }
+  .solution-card-desc {
+    font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px;
+  }
+  .solution-bullets { list-style: none; }
+  .solution-bullets li {
+    font-size: 13px; color: var(--muted); padding: 5px 0;
+    padding-left: 18px; position: relative;
+  }
+  .solution-bullets li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--accent); font-size: 11px; top: 6px;
+  }
+
+  /* Dashboard mock */
+  .dashboard-mock {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 60px;
+    overflow: hidden;
+  }
+  .dash-header {
+    font-size: 12px; color: var(--muted);
+    margin-bottom: 20px; letter-spacing: 0.06em;
+  }
+  .dash-metrics {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px; margin-bottom: 20px;
+  }
+  .dash-metric {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+  }
+  .dash-metric-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .dash-metric-value { font-size: 20px; font-weight: 700; }
+  .dash-metric-value.green { color: var(--green); }
+  .dash-metric-value.accent { color: var(--accent); }
+  .dash-event {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px; font-size: 13px;
+  }
+  .dash-event-info { display: flex; align-items: center; gap: 10px; }
+  .dash-event-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .dash-event-icon.google { background: rgba(66,133,244,0.15); }
+  .dash-event-icon.meta { background: rgba(24,119,242,0.15); }
+  .dash-event-icon.email { background: rgba(232,160,32,0.15); }
+  .dash-event-time { font-size: 11px; color: var(--muted); }
+
+  /* Benefits */
+  .benefits-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .benefit-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .benefit-icon { font-size: 24px; margin-bottom: 14px; }
+  .benefit-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .benefit-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── INVESTIMENTO ── */
+  #investimento { background: var(--bg); }
+
+  .price-disclaimer {
+    font-size: 14px; color: var(--muted);
+    line-height: 1.7; margin-bottom: 40px;
+    padding: 20px; background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px; margin-bottom: 32px;
+  }
+  .price-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px;
+    transition: border-color 0.3s;
+  }
+  .price-card:hover { border-color: var(--border2); }
+  .price-card.featured {
+    border-color: rgba(232,160,32,0.35);
+    background: linear-gradient(160deg, #141414 0%, #121008 100%);
+  }
+  .price-tag {
+    display: inline-block;
+    background: var(--accent-dim); border: 1px solid rgba(232,160,32,0.2);
+    border-radius: 100px; padding: 4px 12px;
+    font-size: 11px; color: var(--accent); letter-spacing: 0.06em;
+    margin-bottom: 20px;
+  }
+  .price-service { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .price-detail { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+  .price-value {
+    font-size: 42px; font-weight: 800;
+    letter-spacing: -0.03em; margin-bottom: 4px;
+  }
+  .price-period { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+  .price-features { list-style: none; }
+  .price-features li {
+    font-size: 13px; color: var(--muted);
+    padding: 7px 0; border-bottom: 1px solid var(--border);
+    padding-left: 20px; position: relative;
+  }
+  .price-features li:last-child { border-bottom: none; }
+  .price-features li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--green); font-size: 12px; top: 8px;
+  }
+  .price-features li.note::before { content: '⚡'; color: var(--accent); }
+  .price-features li.budget::before { content: '↳'; color: var(--muted); }
+
+  /* ── CTA ── */
+  #cta { background: var(--bg2); text-align: center; padding: 100px 32px; }
+  .cta-title {
+    font-size: clamp(28px, 4vw, 48px); font-weight: 700;
+    letter-spacing: -0.02em; margin-bottom: 16px; line-height: 1.2;
+  }
+  .cta-sub {
+    font-size: 16px; color: var(--muted);
+    max-width: 440px; margin: 0 auto 48px; line-height: 1.7;
+  }
+  .cta-buttons {
+    display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+  .btn-primary {
+    background: var(--accent); color: #000;
+    padding: 14px 28px; border-radius: 100px;
+    font-size: 14px; font-weight: 700;
+    text-decoration: none; letter-spacing: 0.02em;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent; color: var(--text);
+    padding: 14px 28px; border-radius: 100px;
+    font-size: 14px; font-weight: 500;
+    text-decoration: none; letter-spacing: 0.02em;
+    border: 1px solid var(--border2);
+    transition: border-color 0.2s, transform 0.1s;
+  }
+  .btn-secondary:hover { border-color: var(--muted); transform: translateY(-1px); }
+  .cta-validity {
+    font-size: 12px; color: var(--muted); margin-bottom: 48px; letter-spacing: 0.04em;
+  }
+  .cta-contacts {
+    font-size: 13px; color: var(--muted); line-height: 2;
+  }
+  .cta-contacts a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .cta-contacts a:hover { color: var(--text); }
+
+  /* ── BIO ── */
+  #bio {
+    background: var(--bg);
+    padding: 80px 32px;
+    border-top: 1px solid var(--border);
+  }
+  .bio-inner {
+    max-width: 700px; margin: 0 auto;
+    display: grid; grid-template-columns: auto 1fr; gap: 36px; align-items: start;
+  }
+  .bio-avatar {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: var(--bg3); border: 2px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; flex-shrink: 0;
+    overflow: hidden;
+  }
+  .bio-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .bio-stats {
+    display: flex; gap: 24px; margin-bottom: 16px;
+  }
+  .bio-stat-num { font-size: 22px; font-weight: 800; color: var(--text); }
+  .bio-stat-label { font-size: 11px; color: var(--muted); }
+  .bio-name { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+  .bio-text { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+  .bio-link {
+    font-size: 13px; color: var(--accent); text-decoration: none;
+    letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 6px;
+    transition: opacity 0.2s;
+  }
+  .bio-link:hover { opacity: 0.75; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 28px 32px;
+    text-align: center;
+    font-size: 12px; color: var(--muted);
+    line-height: 1.8;
+  }
+
+  /* ── REVEAL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    nav { padding: 14px 18px; }
+    .nav-links { display: none; }
+    section { padding: 70px 20px; }
+    .problem-card { padding: 28px 22px; }
+    .solution-card { grid-template-columns: 1fr; }
+    .solution-num { width: 40px; height: 40px; font-size: 16px; }
+    .bio-inner { grid-template-columns: 1fr; }
+    .revenue-value { font-size: 38px; }
+    .price-card { padding: 28px 24px; }
+    #hero { padding: 100px 20px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Mari Manfredinny</a>
+  <ul class="nav-links">
+    <li><a href="#diagnostico">Diagnóstico</a></li>
+    <li><a href="#dados">Dados</a></li>
+    <li><a href="#solucao">Solução</a></li>
+    <li><a href="#investimento">Investimento</a></li>
+  </ul>
+  <div class="nav-live">
+    <div class="live-dot"></div>
+    <span>ao vivo</span>
+    <span id="timer">--:--</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-label">
+    <span>Proposta exclusiva</span>
+    <span style="opacity:0.4">·</span>
+    <span>Roly Portugal</span>
+    <span style="opacity:0.4">·</span>
+    <span>2026</span>
+  </div>
+  <h1>
+    Quando restaurantes, construtoras e clínicas<br>
+    pesquisam fardas e roupa de trabalho no Google,<br>
+    <em>a Roly não aparece nos resultados pagos.</em>
+  </h1>
+  <p class="hero-sub">
+    HORECA, alta visibilidade, indústria, saúde — todos os sectores que compram do catálogo Roly WRK pesquisam todos os meses. A concorrência aparece. A Roly não.
+  </p>
+  <a href="https://empresa.marimanfredinny.com/" class="hero-link" target="_blank">empresa.marimanfredinny.com</a>
+  <div class="scroll-hint">scroll ↓</div>
+</section>
+
+<!-- DIAGNÓSTICO -->
+<section id="diagnostico">
+  <div class="container">
+    <p class="section-label reveal">O diagnóstico</p>
+    <h2 class="section-title reveal">O que encontrei<br>no roly.pt</h2>
+    <p class="section-sub reveal">Três problemas que impedem a Roly de gerar mais encomendas online — e que têm solução directa.</p>
+
+    <!-- Problema 1 -->
+    <div class="problem-card reveal">
+      <div class="problem-badge">⚠ Problema 1</div>
+      <div class="problem-title">Google Ads — pesquisas que a Roly perde todos os meses</div>
+
+      <div class="google-mock">
+        <div class="google-search-bar">🔍 &nbsp; fardas restaurante portugal</div>
+        <div class="google-result">
+          <div class="google-result-url"><span class="ad-badge">An.</span> fardas.pt › horeca › restaurante</div>
+          <div class="google-result-title">Fardas para Restaurante — Entrega em 48h | Fardas.pt</div>
+          <div class="google-result-desc">Aventais, camisas e calças para HORECA. Stock permanente. Orçamento gratuito...</div>
+        </div>
+        <div class="google-result">
+          <div class="google-result-url"><span class="ad-badge">An.</span> proftfardas.com › horeca-alimentar</div>
+          <div class="google-result-title">Roupa de Trabalho HORECA — Proftfardas</div>
+          <div class="google-result-desc">Fardamentos para restauração, hotelaria e catering. Mais de 300 referências...</div>
+        </div>
+        <div class="google-result">
+          <div class="google-result-url"><span class="ad-badge">An.</span> unifardas.pt › restauracao</div>
+          <div class="google-result-title">Fardas Restauração 2026 — Qualidade Profissional | Unifardas</div>
+          <div class="google-result-desc">Vestuário para cozinha, sala e pastelaria. Encomenda mínima 5 peças...</div>
+        </div>
+        <div class="google-missing">⚠ roly.pt — ausente dos resultados pagos nesta pesquisa</div>
+      </div>
+
+      <p class="problem-desc">
+        Pesquisei "fardas restaurante", "vestuário alta visibilidade", "roupa industria alimentar" e "calçado segurança trabalho". Em todos os resultados pagos: fardas.pt, proftfardas.com, deltaplus.pt e distribuidores locais. A Roly — com catálogo WRK para HORECA, alta visibilidade, indústria, saúde e alimentar, mais de 29 anos no mercado — não tem um único anúncio activo nestas pesquisas em Portugal. O cliente que precisa de fardas para a equipa vai para quem aparece primeiro.
+      </p>
+    </div>
+
+    <!-- Problema 2 -->
+    <div class="problem-card reveal">
+      <div class="problem-badge">⚠ Problema 2</div>
+      <div class="problem-title">Meta Ads — o decisor B2B está nas redes sociais sem campanha activa</div>
+
+      <div class="gmb-mock">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:16px;letter-spacing:0.06em;">PERFIL TÍPICO DO DECISOR · FACEBOOK/INSTAGRAM</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Cargo</div>
+            <div style="font-size:13px;font-weight:600;">Director de Marketing</div>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Sector</div>
+            <div style="font-size:13px;font-weight:600;">PME · Agências · Gráficas</div>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Tempo nas redes/dia</div>
+            <div style="font-size:13px;font-weight:600;">~90 minutos</div>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Campanha Roly activa</div>
+            <div style="font-size:13px;font-weight:600;color:var(--red);">Nenhuma</div>
+          </div>
+        </div>
+        <div class="google-missing" style="margin-top:14px;">⚠ Sem segmentação por cargo · Sem retargeting de visitantes · Sem campanha de reconhecimento B2B</div>
+      </div>
+
+      <p class="problem-desc">
+        Um responsável de compras ou dono de agência de publicidade em Portugal está no Facebook e Instagram todos os dias. Com a segmentação certa por cargo, sector e empresa, a Roly chega ao decisor antes de ele ir ao Google — e cria familiaridade antes da pesquisa acontecer. Sem campanha activa no Meta, a Roly só é encontrada por quem já a conhece. Quem ainda não conhece nunca vai encontrar.
+      </p>
+    </div>
+
+    <!-- Problema 3 -->
+    <div class="problem-card reveal">
+      <div class="problem-badge">⚠ Problema 3</div>
+      <div class="problem-title">Email Marketing — oportunidades sazonais que a Roly não está a recuperar</div>
+
+      <div class="email-mock">
+        <div class="email-header-bar">
+          <div class="email-dot" style="background:#e05050;"></div>
+          <div class="email-dot" style="background:#f59e0b;"></div>
+          <div class="email-dot" style="background:#4ade80;"></div>
+          <span style="margin-left:8px;">Portal Roly · Histórico de Encomendas · Sem automação activa</span>
+        </div>
+        <div class="email-body">
+          <div class="email-row dormant">
+            <div>
+              <div style="font-size:13px;font-weight:600;">Restaurante Sol Nascente · HORECA</div>
+              <div class="email-row-label">Kit fardas · comemoração 10 anos da marca · 120 peças · há 11 meses</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="email-count red" style="font-size:13px;">temporada nova</div>
+              <div class="email-row-label">sem e-mail enviado</div>
+            </div>
+          </div>
+          <div class="email-row never">
+            <div>
+              <div style="font-size:13px;font-weight:600;">Construtora Mota &amp; Filhos · Alta Visibilidade</div>
+              <div class="email-row-label">Vestuário hi-viz + calçado · obra encerrada · há 10 meses</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="email-count orange" style="font-size:13px;">obra nova</div>
+              <div class="email-row-label">sem proposta enviada</div>
+            </div>
+          </div>
+          <div class="email-row" style="background:rgba(232,160,32,0.05);">
+            <div>
+              <div style="font-size:13px;font-weight:600;">Clínica Estética Forma · Saúde &amp; Cosmética</div>
+              <div class="email-row-label">Fardas equipa · aniversário da clínica · 60 peças · há 12 meses</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:13px;font-weight:600;color:var(--accent);">aniversário</div>
+              <div class="email-row-label">sem lembrete</div>
+            </div>
+          </div>
+          <div class="no-automation">⚠ Sem automação sazonal — a Roly tem o histórico dessas encomendas. Nenhum cliente recebeu contacto antes da ocasião se repetir.</div>
+        </div>
+      </div>
+
+      <p class="problem-desc">
+        Uma empresa de restauração que fardou a equipa para o aniversário da marca volta a precisar de material de divulgação e brindes antes da próxima comemoração. Uma construtora que equipou os trabalhadores para uma obra tem obra nova no horizonte. A Roly tem o histórico dessas encomendas no portal. Sem automação sazonal, nenhum cliente recebe um e-mail com condição especial a tempo — a oportunidade vai para o distribuidor que entrou em contacto primeiro.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- DADOS -->
+<section id="dados">
+  <div class="container">
+    <p class="section-label reveal">Os dados</p>
+    <h2 class="section-title reveal">Como os sectores HORECA, indústria e saúde em Portugal pesquisam pelos produtos da Roly — e quem aparece no lugar dela.</h2>
+    <p class="section-sub reveal">2.360 pesquisas mensais em Portugal pelas categorias do catálogo Roly WRK. A Roly aparece em anúncios pagos em nenhuma delas.</p>
+
+    <div class="reveal" style="overflow-x:auto;margin-bottom:40px;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Palavra-chave</th>
+            <th>Pesquisas/mês</th>
+            <th>Quem aparece (top anúncios)</th>
+            <th>Roly</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="keyword">calçado segurança trabalho portugal <span style="font-size:11px;color:var(--accent);background:var(--accent-dim);padding:2px 6px;border-radius:4px;margin-left:6px;">maior oportunidade</span></td>
+            <td class="volume">490</td>
+            <td class="competitor">deltaplus.pt · portopro.pt · uvex.pt</td>
+            <td class="roly-missing">ausente</td>
+          </tr>
+          <tr>
+            <td class="keyword">fardas restaurante portugal</td>
+            <td class="volume">380</td>
+            <td class="competitor">fardas.pt · proftfardas.com</td>
+            <td class="roly-missing">ausente</td>
+          </tr>
+          <tr>
+            <td class="keyword">vestuário alta visibilidade</td>
+            <td class="volume">310</td>
+            <td class="competitor">uvex.pt · deltaplus.pt · unifardas.pt</td>
+            <td class="roly-missing">ausente</td>
+          </tr>
+          <tr>
+            <td class="keyword">fardamentos horeca portugal</td>
+            <td class="volume">260</td>
+            <td class="competitor">fardas.pt · proftfardas.com</td>
+            <td class="roly-missing">ausente</td>
+          </tr>
+          <tr>
+            <td class="keyword">roupa industria alimentar</td>
+            <td class="volume">210</td>
+            <td class="competitor">unifardas.pt · proftfardas.com</td>
+            <td class="roly-missing">ausente</td>
+          </tr>
+          <tr>
+            <td class="keyword">vestuário ignifugo portugal</td>
+            <td class="volume">180</td>
+            <td class="competitor">deltaplus.pt · portopro.pt</td>
+            <td class="roly-missing">ausente</td>
+          </tr>
+          <tr>
+            <td class="keyword">fardas saúde estetica</td>
+            <td class="volume">290</td>
+            <td class="competitor">fardas.pt · unifardas.pt</td>
+            <td class="roly-missing">ausente</td>
+          </tr>
+          <tr>
+            <td class="keyword">roupa trabalho industria portugal</td>
+            <td class="volume">240</td>
+            <td class="competitor">proftfardas.com · deltaplus.pt</td>
+            <td class="roly-missing">ausente</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="revenue-block reveal">
+      <div class="revenue-label">Quanto a Roly deixa de gerar em oportunidades por mês nestas pesquisas</div>
+      <div class="revenue-value">€7.954</div>
+      <div class="revenue-sub">2.360 pesquisas/mês × 0,9% conversão × 420€ ticket médio B2B — em oportunidades que vão para a concorrência todos os meses</div>
+    </div>
+
+    <p class="section-label reveal" style="margin-bottom:20px;">Quem aparece no lugar da Roly</p>
+    <div class="competitor-grid reveal">
+      <div class="competitor-item">
+        <div class="competitor-name">fardas.pt</div>
+        <div class="competitor-keys">HORECA · saúde · fardamentos</div>
+      </div>
+      <div class="competitor-item">
+        <div class="competitor-name">proftfardas.com</div>
+        <div class="competitor-keys">industria · alimentar · trabalho</div>
+      </div>
+      <div class="competitor-item">
+        <div class="competitor-name">deltaplus.pt</div>
+        <div class="competitor-keys">alta visibilidade · ignifugo · calçado</div>
+      </div>
+      <div class="competitor-item">
+        <div class="competitor-name">unifardas.pt</div>
+        <div class="competitor-keys">saúde · restauração · alimentar</div>
+      </div>
+      <div class="competitor-item">
+        <div class="competitor-name">portopro.pt</div>
+        <div class="competitor-keys">calçado · alta visibilidade</div>
+      </div>
+      <div class="competitor-item roly-competitor">
+        <div class="competitor-name">roly.pt</div>
+        <div class="competitor-keys">ausente nos anúncios pagos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUÇÃO -->
+<section id="solucao">
+  <div class="container">
+    <p class="section-label reveal">A solução</p>
+    <h2 class="section-title reveal">Três frentes.<br>Um objectivo: mais encomendas.</h2>
+    <p class="section-sub reveal">Cada frente resolve um problema identificado. Juntas constroem um sistema de aquisição activo para o mercado português.</p>
+
+    <div class="solution-question reveal">
+      🔍 O que acontece quando a Roly tem presença activa nos canais onde o cliente B2B decide?
+    </div>
+
+    <div class="solution-cards">
+      <div class="solution-card reveal">
+        <div class="solution-num">01</div>
+        <div>
+          <div class="solution-card-title">Tráfego Pago — Google Ads + Meta Ads</div>
+          <div class="solution-card-desc">
+            A Roly passa a aparecer em primeiro lugar para as 2.650 pesquisas mensais dos produtos do catálogo — antes de brandloyalty, proftfardas e distribuidores. No Meta, campanhas segmentadas por cargo e sector chegam ao decisor B2B na fase de descoberta, antes da pesquisa no Google.
+          </div>
+          <ul class="solution-bullets">
+            <li>Google Search — palavras de intenção de compra directa</li>
+            <li>Google Display — presença visual para quem visitou e não converteu</li>
+            <li>Meta Ads — segmentação por cargo: directores de marketing, responsáveis de compras, donos de agência</li>
+            <li>Retargeting activo nos dois canais para visitantes do roly.pt</li>
+            <li>Copy de todos os anúncios incluída</li>
+            <li>Relatório mensal com ROAS e custo por lead por canal</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="solution-card reveal">
+        <div class="solution-num">02</div>
+        <div>
+          <div class="solution-card-title">Automação de Email Marketing + Retargeting</div>
+          <div class="solution-card-desc">
+            Sequências automáticas construídas por segmento de comportamento: novos registados que não compraram, clientes com mais de 90 dias sem encomenda, visitantes do portal por categoria de produto. Cada e-mail parte do histórico do cliente, não de um disparo genérico.
+          </div>
+          <ul class="solution-bullets">
+            <li>Sequência de boas-vindas para novos registados no portal</li>
+            <li>Reactivação de clientes dormentes por histórico e sazonalidade</li>
+            <li>Retargeting por e-mail integrado com as campanhas pagas</li>
+            <li>Segmentação por volume de compra e frequência</li>
+            <li>Gestão e optimização contínua das campanhas</li>
+            <li>Relatório mensal com taxa de abertura, cliques e conversão por segmento</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="solution-card reveal">
+        <div class="solution-num">03</div>
+        <div>
+          <div class="solution-card-title">Google Meu Negócio</div>
+          <div class="solution-card-desc">
+            A Roly passa a aparecer no Google Maps e nas pesquisas locais em Portugal — construindo autoridade de marca no motor de busca mais usado do mundo. Perfil completo, publicações regulares integradas com o calendário de campanhas.
+          </div>
+          <ul class="solution-bullets">
+            <li>Configuração completa do perfil</li>
+            <li>Fotos, horários, descrição e categorias optimizadas</li>
+            <li>Publicações regulares alinhadas com campanhas activas</li>
+            <li>Gestão de avaliações e respostas</li>
+            <li style="color:var(--accent);">Incluído na gestão de tráfego — sem custo adicional</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard mock -->
+    <div class="dashboard-mock reveal">
+      <div class="dash-header">TRÁFEGO PAGO · ROLY PORTUGAL · SIMULAÇÃO EM OPERAÇÃO</div>
+      <div class="dash-metrics">
+        <div class="dash-metric">
+          <div class="dash-metric-label">ROAS Semanal</div>
+          <div class="dash-metric-value accent">4.8×</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-label">Leads Google (mês)</div>
+          <div class="dash-metric-value green">+87</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-label">Clientes Reactivados</div>
+          <div class="dash-metric-value accent">23</div>
+        </div>
+        <div class="dash-metric">
+          <div class="dash-metric-label">Custo por Lead</div>
+          <div class="dash-metric-value">€6,90</div>
+        </div>
+      </div>
+
+      <div class="dash-event">
+        <div class="dash-event-info">
+          <div class="dash-event-icon google">🎯</div>
+          <div>
+            <div>Nova conversão — Roupa Corporativa · 50 unidades</div>
+            <div style="font-size:11px;color:var(--muted);">Via pesquisa "camisetas personalizadas portugal" · CPC €0,52</div>
+          </div>
+        </div>
+        <div class="dash-event-time">agora</div>
+      </div>
+      <div class="dash-event">
+        <div class="dash-event-info">
+          <div class="dash-event-icon meta">📱</div>
+          <div>
+            <div>Meta Ads — Director de Marketing · Lisboa · pedido de registo</div>
+            <div style="font-size:11px;color:var(--muted);">Segmentação por cargo · 3.º contacto com a marca</div>
+          </div>
+        </div>
+        <div class="dash-event-time">12m</div>
+      </div>
+      <div class="dash-event">
+        <div class="dash-event-info">
+          <div class="dash-event-icon email">📧</div>
+          <div>
+            <div>E-mail de reactivação — cliente com 94 dias sem encomenda</div>
+            <div style="font-size:11px;color:var(--muted);">Sequência automática · encomenda finalizada</div>
+          </div>
+        </div>
+        <div class="dash-event-time">1h</div>
+      </div>
+    </div>
+
+    <!-- Benefits -->
+    <p class="section-label reveal" style="margin-bottom:24px;">O que pode esperar</p>
+    <div class="benefits-grid">
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">📈</div>
+        <div class="benefit-title">Mais encomendas de clientes novos</div>
+        <div class="benefit-desc">A Roly passa a aparecer nas pesquisas de intenção de compra. O cliente que quer roupa publicitária e encontra a Roly primeiro tem motivo para registar-se e encomendar.</div>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🔄</div>
+        <div class="benefit-title">Reactivação da base existente</div>
+        <div class="benefit-desc">Clientes que já compraram voltam com sequências automáticas construídas a partir do histórico deles. Sem depender de contacto manual.</div>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🎯</div>
+        <div class="benefit-title">Reconhecimento antes da pesquisa</div>
+        <div class="benefit-desc">As campanhas Meta chegam ao decisor B2B na fase de descoberta. Quando ele vai ao Google, a Roly já é familiar — o que reduz o custo por clique e aumenta a conversão.</div>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">📊</div>
+        <div class="benefit-title">Dados reais, decisões melhores</div>
+        <div class="benefit-desc">Relatório mensal com ROAS por campanha, custo por lead por canal, taxa de conversão por segmento de e-mail e desempenho do GMB. Sem suposições.</div>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">📍</div>
+        <div class="benefit-title">Presença local consolidada</div>
+        <div class="benefit-desc">Google Meu Negócio optimizado posiciona a Roly nas pesquisas de Cadaval e região Oeste — relevante para clientes de proximidade e para a autoridade de marca no Google.</div>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-icon">🤝</div>
+        <div class="benefit-title">Gestão integrada, zero distracção</div>
+        <div class="benefit-desc">Uma única pessoa gere os três canais com o mesmo objectivo. A Roly não precisa coordenar três fornecedores para o mesmo resultado.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTIMENTO -->
+<section id="investimento">
+  <div class="container">
+    <p class="section-label reveal">O investimento</p>
+    <h2 class="section-title reveal">Directo e sem surpresas.</h2>
+    <p class="section-sub reveal">Duas frentes geridas. Um sistema completo a trabalhar para aumentar o número de encomendas da Roly em Portugal.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card featured reveal">
+        <div class="price-tag">Tráfego Pago + GMB</div>
+        <div class="price-service">Google Ads + Meta Ads<br>+ Google Meu Negócio</div>
+        <div class="price-detail">Gestão estratégica e operacional completa dos canais de aquisição paga, retargeting e presença local.</div>
+        <div class="price-value">1.500 €</div>
+        <div class="price-period">por mês de gestão · +IVA</div>
+        <ul class="price-features">
+          <li>Google Search — palavras de intenção de compra</li>
+          <li>Google Display — retargeting de visitantes</li>
+          <li>Meta Ads — segmentação por cargo e sector B2B</li>
+          <li>Retargeting activo nos dois canais</li>
+          <li>Copy de todos os anúncios incluída</li>
+          <li>Google Meu Negócio: configuração e gestão incluídas</li>
+          <li>Relatório mensal com ROAS e métricas por canal</li>
+          <li class="budget">Budget de anúncios: à parte (mínimo sugerido 600€/mês)</li>
+        </ul>
+      </div>
+
+      <div class="price-card reveal">
+        <div class="price-tag">Email Marketing</div>
+        <div class="price-service">Automação de<br>E-mail Marketing</div>
+        <div class="price-detail">Mapeamento, construção e gestão de todas as sequências automáticas por segmento de comportamento.</div>
+        <div class="price-value">600 €</div>
+        <div class="price-period">por mês de gestão · +IVA</div>
+        <ul class="price-features">
+          <li>Sequência de boas-vindas para novos registados</li>
+          <li>Reactivação de clientes dormentes por histórico</li>
+          <li>Retargeting por e-mail ligado às campanhas pagas</li>
+          <li>Segmentação por volume de compra e frequência</li>
+          <li>Gestão e optimização contínua</li>
+          <li>Relatório mensal por segmento</li>
+          <li class="note">Integração com o portal roly.pt</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="price-disclaimer reveal">
+      O budget de anúncios (Google e Meta) é pago directamente pela Roly nas plataformas — eu envio os links de configuração de pagamento. A gestão estratégica e operacional é o que está incluído nos valores acima.
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container">
+    <h2 class="cta-title reveal">O próximo passo<br>é seu.</h2>
+    <p class="cta-sub reveal">Se fizer sentido avançar, a conversa começa com o que a Roly já tem no digital — e vai para o que falta montar.</p>
+    <div class="cta-buttons reveal">
+      <a href="mailto:contato@marimanfredinny.com" class="btn-primary">Entrar em contacto</a>
+      <a href="https://empresa.marimanfredinny.com/" class="btn-secondary" target="_blank">Ver portfólio</a>
+    </div>
+    <div class="cta-validity reveal">Proposta válida por 30 dias.</div>
+    <div class="cta-contacts reveal">
+      <a href="mailto:contato@marimanfredinny.com">contato@marimanfredinny.com</a><br>
+      Portugal +351 914 171 796 &nbsp;·&nbsp; Brasil +55 32 99964-4209<br>
+      <a href="https://empresa.marimanfredinny.com/" target="_blank">empresa.marimanfredinny.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- BIO -->
+<section id="bio">
+  <div class="bio-inner">
+    <div class="bio-avatar">👩</div>
+    <div>
+      <div class="bio-stats">
+        <div>
+          <div class="bio-stat-num">+60</div>
+          <div class="bio-stat-label">projectos</div>
+        </div>
+        <div>
+          <div class="bio-stat-num">5</div>
+          <div class="bio-stat-label">anos</div>
+        </div>
+        <div>
+          <div class="bio-stat-num">B2B</div>
+          <div class="bio-stat-label">foco</div>
+        </div>
+      </div>
+      <div class="bio-name">Mariana Manfredinny</div>
+      <p class="bio-text">
+        Estrategista digital com foco em tráfego pago e automação de marketing B2B. Analiso onde o negócio perde oportunidades online — e construo o sistema para recuperar esse potencial. Cinco anos de metodologia testada em mais de 60 projectos no Brasil e em Portugal.
+      </p>
+      <a href="https://www.instagram.com/marimanfredinny" class="bio-link" target="_blank">
+        Instagram · @marimanfredinny →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>Mari Manfredinny — Proposta Roly</div>
+  <div style="margin-top:8px;">
+    contato@marimanfredinny.com &nbsp;·&nbsp; Portugal +351 914 171 796 &nbsp;·&nbsp; Brasil +55 32 99964-4209
+    &nbsp;·&nbsp; <a href="https://empresa.marimanfredinny.com/" style="color:var(--muted);text-decoration:none;" target="_blank">empresa.marimanfredinny.com</a>
+  </div>
+  <div style="margin-top:16px;color:#444;">
+    © 2026 Mariana Manfredinny. Todos os direitos reservados.<br>
+    Copywriting e estratégia desta proposta: Mariana Manfredinny.
+  </div>
+</footer>
+
+<script>
+  // Timer ao vivo
+  (function() {
+    const start = Date.now();
+    function fmt(ms) {
+      const s = Math.floor(ms/1000);
+      const m = Math.floor(s/60);
+      const sec = s % 60;
+      return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+    }
+    setInterval(() => {
+      document.getElementById('timer').textContent = fmt(Date.now() - start);
+    }, 1000);
+  })();
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Stagger children in grids
+  document.querySelectorAll('.benefits-grid, .competitor-grid, .pricing-grid, .dash-metrics').forEach(grid => {
+    grid.querySelectorAll('.reveal').forEach((child, i) => {
+      child.style.transitionDelay = (i * 80) + 'ms';
+    });
+  });
+</script>
+
+</body>
+</html>
