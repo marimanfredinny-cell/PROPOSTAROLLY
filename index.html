@@ -516,7 +516,10 @@
     font-size: 32px; flex-shrink: 0;
     overflow: hidden;
   }
-  .bio-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .bio-avatar img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 18%;
+  }
   .bio-stats {
     display: flex; gap: 24px; margin-bottom: 16px;
   }
@@ -1010,7 +1013,9 @@
 <!-- BIO -->
 <section id="bio">
   <div class="bio-inner">
-    <div class="bio-avatar">👩</div>
+    <div class="bio-avatar">
+      <img src="assets/mari.jpg" alt="Mariana Manfredinny" onerror="this.parentElement.textContent='👩'">
+    </div>
     <div>
       <div class="bio-stats">
         <div>
